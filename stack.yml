@@ -1,0 +1,48 @@
+# Marand Demographics
+version: '3.3'
+
+services:
+
+  demographics-app:
+    image: inidus/marand-demographics-app:latest
+    build:
+      context: .
+      labels:
+        - "cloud.inidus.service.name=Demographics"
+        - "cloud.inidus.service.desc=Marand ThinkEHR Demographics"
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://demographics-db/demographics
+      SPRING_DATASOURCE_USERNAME: demographics
+      SPRING_DATASOURCE_PASSWORD: demographics
+    ports:
+      - "8084:8080"
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.domain=${INIDUS_DOMAIN}"
+        - "traefik.docker.network=frontend"
+        - "traefik.entrypoints=https"
+        - "traefik.backend.loadbalancer.stickiness=true"
+        - "traefik.backend.loadbalancer.swarm=true"
+        - "traefik.frontend.passHostHeader=true"
+        - "traefik.frontend.rule=Host:demographics-app.${INIDUS_CLIENT}.${INIDUS_DOMAIN}"
+        - "traefik.port=8384"
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+    networks:
+      - demographics
+      - frontend
+
+networks:
+  frontend:
+    external: true
+  demographics:
+
+volumes:
+  demographics-db-data:
+#    driver: rexray

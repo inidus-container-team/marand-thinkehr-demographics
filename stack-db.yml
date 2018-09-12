@@ -1,0 +1,32 @@
+# Marand Demographics
+version: '3.3'
+
+services:
+
+  demographics-db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: demographics
+      POSTGRES_USER: demographics
+      POSTGRES_DB: demographics
+    volumes:
+      - "demographics-db-data:/var/lib/postgresql/data"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+    networks:
+      - demographics
+
+networks:
+  frontend:
+    external: true
+  demographics:
+
+volumes:
+  demographics-db-data:
+#    driver: rexray
