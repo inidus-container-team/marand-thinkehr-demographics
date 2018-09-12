@@ -2,8 +2,7 @@ sudo: required
 services:
 - docker
 env:
-- DEMOGRAPHICS_VER=2.0.0
-- DEMOGRAPHICS_JAR=thinkehr-demographics-standalone-deploy-2.0.0-A9.jar
+- DEMOGRAPHICS_VER=2.0.0 DEMOGRAPHICS_JAR=thinkehr-demographics-standalone-deploy-2.0.0-A9.jar
 before_script:
 - wget -q https://$SOURCE_URL/source/marand/files/$DEMOGRAPHICS_JAR -O source/$DEMOGRAPHICS_JAR
 script:
