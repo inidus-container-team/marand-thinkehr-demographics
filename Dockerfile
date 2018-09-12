@@ -10,11 +10,11 @@ LABEL org.label-schema.vendor="Marand" \
       com.inidus.maintainer="Inidus" \
       com.inidus.contact="Inidus <contact@inidus.com>"
 
-ARG PSQL_URL=https://jdbc.postgresql.org/download
-ARG PSQL_JDBC=postgresql-42.2.0.jar
-
 # Docker - Set ENV in container
-ENV DEMOGRAPHICS_SLEEP=10
+ENV DEMOGRAPHICS_SLEEP=10 \
+    PSQL_URL=https://jdbc.postgresql.org/download \
+    PSQL_JDBC=postgresql-42.2.0.jar \
+    DEMOGRAPHICS_JAR=$DEMOGRAPHICS_JAR
 
 WORKDIR /demographics
 
@@ -32,6 +32,6 @@ COPY ./conf/application.properties application.properties
 EXPOSE 8384
 
 # Inidus - run .jar
-CMD echo "The application will start in ${TEHR_SLEEP}s..." && \
+CMD echo "The application will start in ${DEMOGRAPHICS_SLEEP}s..." && \
     sleep ${DEMOGRAPHICS_SLEEP} && \
     LOG_FILE='logs/demographics_app.log' java -Xmx2048m -jar ./${DEMOGRAPHICS_JAR}
