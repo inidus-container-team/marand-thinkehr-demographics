@@ -10,11 +10,11 @@ LABEL org.label-schema.vendor="Marand" \
       com.inidus.maintainer="Inidus" \
       com.inidus.contact="Inidus <contact@inidus.com>"
 
-# Docker - Set ENV to be used in the build
-ENV DEMOGRAPHICS_JAR=$DEMOGRAPHICS_JAR \
-    PSQL_URL=https://jdbc.postgresql.org/download \
-    PSQL_JDBC=postgresql-42.2.0.jar \
-    DEMOGRAPHICS_SLEEP=10
+ARG PSQL_URL=https://jdbc.postgresql.org/download
+ARG PSQL_JDBC=postgresql-42.2.0.jar
+
+# Docker - Set ENV in container
+ENV DEMOGRAPHICS_SLEEP=10
 
 WORKDIR /demographics
 
