@@ -6,7 +6,7 @@ env:
 before_script:
 - wget -q https://$SOURCE_URL/source/marand/files/$DEMOGRAPHICS_JAR -O source/$DEMOGRAPHICS_JAR
 script:
-- envsubst \$DEMOGRAPHICS_VER, \$DEMOGRAPHICS_JAR < Dockerfile > Dockerfile.$DEMOGRAPHICS_VER
+- envsubst '${DEMOGRAPHICS_VER} ${DEMOGRAPHICS_JAR}' < Dockerfile > Dockerfile.$DEMOGRAPHICS_VER
 - docker build -f Dockerfile.$DEMOGRAPHICS_VER --tag marand-thinkehr-demographics .
 after_script:
 - docker images
